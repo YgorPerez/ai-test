@@ -104,14 +104,13 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenu className="p-2 space-y-1">
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.href}>
-                    <Link href={item.href} legacyBehavior passHref>
+                    <Link href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
                       <SidebarMenuButton
                         variant="default"
                         size="default"
                         className="w-full justify-start"
                         isActive={pathname === item.href}
                         tooltip={{ children: item.label, side: 'right', align: 'center' }}
-                        aria-current={pathname === item.href ? 'page' : undefined}
                       >
                         <item.icon className="h-5 w-5" />
                         <span className="group-data-[collapsible=icon]:hidden">{item.label}</span>
