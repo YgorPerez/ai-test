@@ -22,17 +22,24 @@ const calculateDailySummary = (entries: LoggedEntry[]): DailySummary => {
     summary.protein += entry.nutrition.protein;
     summary.fat += entry.nutrition.fat;
     summary.carbs += entry.nutrition.carbohydrates;
-    Object.entries(entry.nutrition.other).forEach(([key, value]) => {
-      const match = String(value).match(/([\d.]+)\s*([a-zA-Z%]*)/);
-      if (match) {
-        const numValue = parseFloat(match[1]);
-        const unit = match[2] || '';
-        if (!summary.otherNutrients[key]) {
-          summary.otherNutrients[key] = { value: 0, unit: unit };
+    if (entry.nutrition.other) {
+      entry.nutrition.other.forEach(item => {
+        const key = item.name;
+        const valueString = item.value;
+        const match = String(valueString).match(/([\d.]+)\s*([a-zA-Z%]*)/);
+        if (match) {
+          const numValue = parseFloat(match[1]);
+          const unit = match[2] || '';
+          if (!summary.otherNutrients[key]) {
+            summary.otherNutrients[key] = { value: 0, unit: unit };
+          }
+          summary.otherNutrients[key].value += numValue;
+          if (summary.otherNutrients[key].unit === '' && unit !== '') {
+            summary.otherNutrients[key].unit = unit;
+          }
         }
-        summary.otherNutrients[key].value += numValue;
-      }
-    });
+      });
+    }
   });
   return summary;
 };

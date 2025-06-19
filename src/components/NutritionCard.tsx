@@ -33,11 +33,11 @@ export function NutritionCard({ nutrition, title, description }: NutritionCardPr
         <NutrientDisplay icon={Beef} label="Protein" value={nutrition.protein} unit="g" />
         <NutrientDisplay icon={Wheat} label="Carbs" value={nutrition.carbohydrates} unit="g" />
         <NutrientDisplay icon={Droplets} label="Fat" value={nutrition.fat} unit="g" />
-        {Object.entries(nutrition.other).map(([key, val]) => (
-          <div key={key} className="flex items-center space-x-2">
+        {nutrition.other && nutrition.other.map((item, index) => (
+          <div key={index} className="flex items-center space-x-2">
             <Info className="h-5 w-5 text-muted-foreground" />
-            <span className="font-medium capitalize">{key.replace(/_/g, ' ')}:</span>
-            <span className="font-code text-sm">{val}</span>
+            <span className="font-medium capitalize">{item.name.replace(/_/g, ' ')}:</span>
+            <span className="font-code text-sm">{item.value}</span>
           </div>
         ))}
       </CardContent>

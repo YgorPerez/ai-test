@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -23,7 +24,12 @@ const NutritionLookupOutputSchema = z.object({
   protein: z.number().describe('The amount of protein in the meal (in grams).'),
   fat: z.number().describe('The amount of fat in the meal (in grams).'),
   carbohydrates: z.number().describe('The amount of carbohydrates in the meal (in grams).'),
-  other: z.record(z.string(), z.string()).describe('Other nutritional information about the meal.'),
+  other: z.array(
+    z.object({
+      name: z.string().describe("Name of the nutrient (e.g., 'Fiber', 'Vitamin C')"),
+      value: z.string().describe("Value of the nutrient, including unit (e.g., '5g', '90mg')")
+    })
+  ).describe('A list of other relevant nutritional components, each with a name and value (including unit).'),
 });
 export type NutritionLookupOutput = z.infer<typeof NutritionLookupOutputSchema>;
 
